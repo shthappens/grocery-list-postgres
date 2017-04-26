@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Groceries</title>
+  </head>
+
+  <body>
+    <h3>Grocery: <%=@groceries_info[0]["name"] %></h3>
+
+      <% @groceries_info.each do |grocery| %>
+        <ul>
+          Comment: <%=grocery["body"] %><br />
+        </ul>
+      <% end %>
+
+  </body>
+</html>
