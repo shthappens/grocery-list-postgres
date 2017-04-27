@@ -8,6 +8,9 @@ INSERT INTO comments (body, grocery_id)
 
 INSERT INTO groceries(name) VALUES ('Peanut Butter');
 
+INSERT INTO comments (body, grocery_id)
+  VALUES ('Smooth and creamy', (SELECT id FROM groceries WHERE name ILIKE 'peanut butter'));
+
 INSERT INTO groceries(name) VALUES ('Milk');
 
 INSERT INTO groceries(name) VALUES ('Bread');

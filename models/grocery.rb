@@ -2,7 +2,7 @@ require 'pry'
 
 class Grocery
 
-  attr_reader :name, :errors
+  attr_reader :name, :errors, :comment
 
   def initialize(params = {})
     @name = params["name"]
@@ -14,7 +14,11 @@ class Grocery
 
   def self.all
     grocery_array = []
-    @groceries = db_connection { |conn| conn.exec("SELECT name FROM groceries") }
+    @groceries = db_connection { |conn| conn.exec(
+      "SELECT groceries.id, groceries.name, comments.body, comments.id
+      FROM groceries
+      LEFT JOIN comments ON comments.grocery_id=groceries.id"
+      ) }
     @groceries.each do |groceries|
       grocery_array << Grocery.new(grocery)
     end
@@ -57,9 +61,6 @@ class Grocery
         conn.exec_params("INSERT INTO groceries (name)
         VALUES ($1);",
         [@name])
-        # conn.exec_params("INSERT INTO comment (body)
-        # VALUES ($1);",
-        # [@comment])
       end
       @valid = true
     end

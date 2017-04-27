@@ -40,11 +40,6 @@ get "/" do
   redirect "/groceries"
 end
 
-get "/groceries/:id" do
-  grocery_info
-  erb :"groceries/show"
-end
-
 get "/groceries" do
   @groceries = db_connection do |conn|
     conn.exec("SELECT * FROM groceries")
@@ -57,4 +52,16 @@ post "/groceries" do
   @new_grocery = Grocery.new(params{})
   @new_grocery.save
   redirect "/groceries"
+end
+
+get "/groceries/:id" do
+  grocery_info
+  erb :"groceries/show"
+end
+
+post "/groceries/:id" do
+  db_connection do |conn|
+    conn.exec_params("INSERT INTO comments (body, grocery_id) VALUES ($1, $2)", [params["comment"], params[:id]])
+  end
+  erb :"groceries/show"
 end
